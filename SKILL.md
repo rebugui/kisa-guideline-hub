@@ -1,5 +1,6 @@
 ---
 name: kisa-guideline-hub
+version: 1.1.0
 description: Automatically collect and publish security guidelines and guides from KISA and Boho (보호나라) to Notion. Use when you need to (1) collect new security guidelines, (2) publish guidelines to Notion, (3) manage PDF downloads from KISA/Boho, or (4) run automated guideline collection. Triggered by "가이드라인 발행", "가이드 수집", "KISA 가이드", "보호나라 가이드", "guideline publisher".
 ---
 
