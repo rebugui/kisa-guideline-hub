@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+*.pyc
+.omc/
+*.db
+data/url_cache.db
+logs/
+.DS_Store

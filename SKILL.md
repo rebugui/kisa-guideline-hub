@@ -30,7 +30,7 @@ Automated system to collect security guidelines from Korean security organizatio
 ### 1. Collect Guidelines
 
 ```bash
-cd ~/.openclaw/workspace/skills/security-news-module
+cd ~/.openclaw/workspace/skills/kisa-guideline-hub
 python3 scripts/publish_guidelines.py --collect
 ```
 
@@ -106,15 +106,23 @@ SECURITY_NEWS_GLM_API_KEY=xxx
 ## File Structure
 
 ```
-security-news-module/
-├── modules/
-│   ├── crawlers/
-│   │   ├── kisa.py (KISA guidelines)
-│   │   └── boho.py (Boho guidelines + PDF)
-│   ├── publisher_service.py
-│   └── notion_handler.py (PDF upload support)
-└── scripts/
-    └── publish_guidelines.py (This skill's script)
+kisa-guideline-hub/
+├── SKILL.md
+├── package.json (chromedriver dependency)
+├── scripts/
+│   └── publish_guidelines.py (메인 스크립트)
+├── references/
+│   ├── schema.md (Notion DB 스키마)
+│   └── examples.md (예시 출력)
+│
+# security-news-feed의 모듈 사용:
+└── ../security-news-feed/
+    └── modules/
+        ├── crawlers/
+        │   ├── kisa.py (KISA 가이드라인 크롤러)
+        │   └── boho.py (Boho 가이드라인 크롤러, Selenium)
+        ├── publisher_service.py
+        └── notion_handler.py (PDF 업로드 지원)
 ```
 
 ## PDF Downloads
@@ -147,17 +155,22 @@ PDFs are uploaded to Notion as file blocks.
 - Based on URL matching
 - Safe to run multiple times
 
-## Integration with Security News Module
+## Integration with Security News Feed
 
-This skill is integrated into the Security News Module:
+This skill reuses crawlers from the `security-news-feed` skill:
 
 ```bash
-# Run both guidelines and news
+# Run both guidelines and news from security-news-feed
+cd ../security-news-feed
 python3 security_news_aggregator.py --once
 
-# Guidelines run first (no LLM, fast)
-# Then security news (with LLM, slower)
+# Guidelines are collected alongside news
+# KISA/Boho crawlers run as part of the main pipeline
 ```
+
+Note: When security-news-feed runs hourly, kisa-guideline-hub's `--full` will find only
+duplicates. Use kisa-guideline-hub for manual re-collection or publishing to a different
+database.
 
 ## Cron Scheduling
 
