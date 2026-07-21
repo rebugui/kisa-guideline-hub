@@ -12,13 +12,13 @@ import argparse
 
 # 환경 변수 로드
 from dotenv import load_dotenv
-env_file = Path.home() / '.openclaw' / 'workspace' / '.env'
+env_file = Path.home() / '.hermes' / '.skills.env'
 load_dotenv(env_file)
 
-# openclaw_logging 경로 추가
+# openclaw_logging 경로 추가 (현재 프로젝트 디렉토리)
 import os
-scripts_path = Path.home() / '.openclaw' / 'workspace' / 'scripts'
-sys.path.insert(0, str(scripts_path))
+project_path = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(project_path))
 
 from openclaw_logging import setup_skill_logger, ExecutionContext
 
